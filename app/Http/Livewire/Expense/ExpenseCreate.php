@@ -4,18 +4,24 @@ namespace App\Http\Livewire\Expense;
 
 use Livewire\Component;
 use App\Models\Expense;
+use Livewire\WithFileUploads;
 
 class ExpenseCreate extends Component
 {
 
+    use WithFileUploads;
+
     public $description;
     public $amount;
     public $type;
+    public $photo;
+    public $expenseDate;
 
     protected $rules = [
-        "description" => "required",
-        "amount" => "required",
-        "type" => "required"
+        "description"   => "required",
+        "amount"        => "required",
+        "type"          => "required",
+        "photo"         => "image|nullable"
     ];
 
     public function createExpense()
@@ -23,11 +29,17 @@ class ExpenseCreate extends Component
 
         $this->validate();
 
+        if($this->photo){
+            $this->photo = $this->photo->store('expenses-photos', 'public');
+        }
+
         auth()->user()->expenses()->create([
             "amount"        => $this->amount,
             "type"          => $this->type,
             "description"   => $this->description,
-            "user_id"       => 1
+            "user_id"       => 1,
+            "photo"         => $this->photo,
+            "expense_date"  => $this->expenseDate
         ]);
 
         session()->flash("message", "Registro criado com sucesso!");
