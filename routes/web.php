@@ -1,10 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Livewire\Expense\ExpenseCreate;
-use App\Http\Livewire\Expense\ExpenseEdit;
-use App\Http\Livewire\Expense\ExpenseList;
-use \Illuminate\Support\Facades\{
+use App\Http\Livewire\Expense\{
+    ExpenseCreate,
+    ExpenseEdit,
+    ExpenseList
+};
+use App\Http\Livewire\Plan\{
+    PlanCreate,
+    PlanList
+};
+use Illuminate\Support\Facades\{
     File,
     Storage
 };
@@ -50,6 +56,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
             // Return with file image
             return response($image)->header('Content-Type', $mimeType);
         })->name('photo');
+
+    });
+
+    Route::prefix('plans')->name('plans.')->group(function (){
+
+        Route::get('/', PlanList::class)->name('index');
+        Route::get('/create', PlanCreate::class)->name('create');
 
     });
 
