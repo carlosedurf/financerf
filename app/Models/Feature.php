@@ -12,8 +12,14 @@ class Feature extends Model
     protected $fillable = [
         'name',
         'slug',
-        'type'
+        'type',
+        'rule'
     ];
+
+    public function getRuleAttribute()
+    {
+        return json_decode($this->attributes['rule'], 2);
+    }
 
     public function plan()
     {

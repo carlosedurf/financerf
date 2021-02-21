@@ -57,6 +57,10 @@
                 @enderror
             </p>
 
+            @foreach($viewFeatures as $feature)
+                @include('plan-features.' . $feature->rule['view'])
+            @endforeach
+
         </div>
         <div class="w-full py-4 px-3 mb-6">
 

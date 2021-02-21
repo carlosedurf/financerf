@@ -14,4 +14,9 @@ class Category extends Model
         'slug'
     ];
 
+    public function expense()
+    {
+        return $this->belongsToMany(Expense::class);
+    }
+
 }
